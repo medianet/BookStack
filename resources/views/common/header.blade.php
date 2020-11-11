@@ -22,17 +22,21 @@
                        value="{{ isset($searchTerm) ? $searchTerm : '' }}">
             </form>
             @endif
+            <div class="language logo-text">
+                <a href="/shelves/knowledge-base">EN</a> | <a href="/shelves/knowledge-base-ru">RU</a>
+            </div>
         </div>
-
         <div class="text-right">
             <nav class="header-links">
                 <div class="links text-center">
                     @if (hasAppAccess())
                         <a class="hide-over-l" href="{{ url('/search') }}">@icon('search'){{ trans('common.search') }}</a>
-                        @if(userCanOnAny('view', \BookStack\Entities\Bookshelf::class) || userCan('bookshelf-view-all') || userCan('bookshelf-view-own'))
+                        @if(signedInUser() && (userCanOnAny('view', \BookStack\Entities\Bookshelf::class) || userCan('bookshelf-view-all') || userCan('bookshelf-view-own')))
                             <a href="{{ url('/shelves') }}">@icon('bookshelf'){{ trans('entities.shelves') }}</a>
                         @endif
+                        @if(signedInUser())
                         <a href="{{ url('/books') }}">@icon('books'){{ trans('entities.books') }}</a>
+                        @endif
                         @if(signedInUser() && userCan('settings-manage'))
                             <a href="{{ url('/settings') }}">@icon('settings'){{ trans('settings.settings') }}</a>
                         @endif
@@ -45,7 +49,7 @@
                         @if(setting('registration-enabled') && config('auth.method') === 'standard')
                             <a href="{{ url('/register') }}">@icon('new-user'){{ trans('auth.sign_up') }}</a>
                         @endif
-                        <a href="{{ url('/login')  }}">@icon('login'){{ trans('auth.log_in') }}</a>
+                        <!--<a href="{{ url('/login')  }}">@icon('login'){{ trans('auth.log_in') }}</a>-->
                     @endif
                 </div>
                 @if(signedInUser())
