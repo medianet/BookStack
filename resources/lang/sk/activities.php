@@ -1,11 +1,9 @@
 <?php
-
+/**
+ * Activity text strings.
+ * Is used for all the text within activity logs & notifications.
+ */
 return [
-
-    /**
-     * Activity text strings.
-     * Is used for all the text within activity logs & notifications.
-     */
 
     // Pages
     'page_create'                 => 'vytvoril stránku',
@@ -37,4 +35,14 @@ return [
     'book_sort'                   => 'zoradil knihu',
     'book_sort_notification'      => 'Kniha úspešne znovu zoradená',
 
+    // Bookshelves
+    'bookshelf_create'            => 'vytvorená knižnica',
+    'bookshelf_create_notification'    => 'Knižnica úspešne vytvorená',
+    'bookshelf_update'                 => 'aktualizovaná knižnica',
+    'bookshelf_update_notification'    => 'Knižnica úspešne aktualizovaná',
+    'bookshelf_delete'                 => 'odstránená knižnica',
+    'bookshelf_delete_notification'    => 'Knižnica úspešne odstránená',
+
+    // Other
+    'commented_on'                => 'komentované na',
 ];

@@ -1,14 +1,17 @@
 <?php
+/**
+ * Text used for 'Entities' (Document Structure Elements) such as
+ * Books, Shelves, Chapters & Pages
+ */
 return [
 
-    /**
-     * Shared
-     */
+    // Shared
     'recently_created' => 'Recently Created',
     'recently_created_pages' => 'Recently Created Pages',
     'recently_updated_pages' => 'Recently Updated Pages',
     'recently_created_chapters' => 'Recently Created Chapters',
     'recently_created_books' => 'Recently Created Books',
+    'recently_created_shelves' => 'Recently Created Shelves',
     'recently_update' => 'Recently Updated',
     'recently_viewed' => 'Recently Viewed',
     'recent_activity' => 'Recent Activity',
@@ -31,24 +34,21 @@ return [
     'export_pdf' => 'PDF File',
     'export_text' => 'Plain Text File',
 
-    /**
-     * Permissions and restrictions
-     */
+    // Permissions and restrictions
     'permissions' => 'Permissions',
     'permissions_intro' => 'Once enabled, These permissions will take priority over any set role permissions.',
     'permissions_enable' => 'Enable Custom Permissions',
     'permissions_save' => 'Save Permissions',
 
-    /**
-     * Search
-     */
+    // Search
     'search_results' => 'Search Results',
     'search_total_results_found' => ':count result found|:count total results found',
     'search_clear' => 'Clear Search',
     'search_no_pages' => 'No pages matched this search',
     'search_for_term' => 'Search for :term',
     'search_more' => 'More Results',
-    'search_filters' => 'Search Filters',
+    'search_advanced' => 'Advanced Search',
+    'search_terms' => 'Search Terms',
     'search_content_type' => 'Content Type',
     'search_exact_matches' => 'Exact Matches',
     'search_tags' => 'Tag Searches',
@@ -66,16 +66,16 @@ return [
     'search_set_date' => 'Set Date',
     'search_update' => 'Update Search',
 
-    /**
-     * Shelves
-     */
+    // Shelves
     'shelf' => 'Shelf',
     'shelves' => 'Choose language',
+    'x_shelves' => ':count Shelf|:count Shelves',
     'shelves_long' => 'Bookshelves',
     'shelves_empty' => 'No shelves have been created',
     'shelves_create' => 'Create New Shelf',
     'shelves_popular' => 'Popular Shelves',
     'shelves_new' => 'New Shelves',
+    'shelves_new_action' => 'New Shelf',
     'shelves_popular_empty' => 'The most popular shelves will appear here.',
     'shelves_new_empty' => 'The most recently created shelves will appear here.',
     'shelves_save' => 'Save Shelf',
@@ -98,9 +98,7 @@ return [
     'shelves_copy_permissions_explain' => 'This will apply the current permission settings of this bookshelf to all books contained within. Before activating, ensure any changes to the permissions of this bookshelf have been saved.',
     'shelves_copy_permission_success' => 'Bookshelf permissions copied to :count books',
 
-    /**
-     * Books
-     */
+    // Books
     'book' => 'Book',
     'books' => 'Books',
     'x_books' => ':count Book|:count Books',
@@ -108,6 +106,7 @@ return [
     'books_popular' => 'Popular Books',
     'books_recent' => 'Recent Books',
     'books_new' => 'New Books',
+    'books_new_action' => 'New Book',
     'books_popular_empty' => 'The most popular books will appear here.',
     'books_new_empty' => 'The most recently created books will appear here.',
     'books_create' => 'Create New Book',
@@ -123,7 +122,6 @@ return [
     'books_permissions_updated' => 'Book Permissions Updated',
     'books_empty_contents' => 'No pages or chapters have been created for this book.',
     'books_empty_create_page' => 'Create a new page',
-    'books_empty_or' => 'or',
     'books_empty_sort_current_book' => 'Sort the current book',
     'books_empty_add_chapter' => 'Add a chapter',
     'books_permissions_active' => 'Book Permissions Active',
@@ -131,12 +129,15 @@ return [
     'books_navigation' => 'Book Navigation',
     'books_sort' => 'Sort Book Contents',
     'books_sort_named' => 'Sort Book :bookName',
+    'books_sort_name' => 'Sort by Name',
+    'books_sort_created' => 'Sort by Created Date',
+    'books_sort_updated' => 'Sort by Updated Date',
+    'books_sort_chapters_first' => 'Chapters First',
+    'books_sort_chapters_last' => 'Chapters Last',
     'books_sort_show_other' => 'Show Other Books',
     'books_sort_save' => 'Save New Order',
 
-    /**
-     * Chapters
-     */
+    // Chapters
     'chapter' => 'Chapter',
     'chapters' => 'Chapters',
     'x_chapters' => ':count Chapter|:count Chapters',
@@ -159,9 +160,7 @@ return [
     'chapters_permissions_success' => 'Chapter Permissions Updated',
     'chapters_search_this' => 'Search this chapter',
 
-    /**
-     * Pages
-     */
+    // Pages
     'page' => 'Page',
     'pages' => 'Pages',
     'x_pages' => ':count Page|:count Pages',
@@ -178,7 +177,7 @@ return [
     'pages_delete_confirm' => 'Are you sure you want to delete this page?',
     'pages_delete_draft_confirm' => 'Are you sure you want to delete this draft page?',
     'pages_editing_named' => 'Editing Page :pageName',
-    'pages_edit_toggle_header' => 'Toggle header',
+    'pages_edit_draft_options' => 'Draft Options',
     'pages_edit_save_draft' => 'Save Draft',
     'pages_edit_draft' => 'Edit Page Draft',
     'pages_editing_draft' => 'Editing Draft',
@@ -212,6 +211,8 @@ return [
     'pages_revisions_created_by' => 'Created By',
     'pages_revisions_date' => 'Revision Date',
     'pages_revisions_number' => '#',
+    'pages_revisions_numbered' => 'Revision #:id',
+    'pages_revisions_numbered_changes' => 'Revision #:id Changes',
     'pages_revisions_changelog' => 'Changelog',
     'pages_revisions_changes' => 'Changes',
     'pages_revisions_current' => 'Current Version',
@@ -234,19 +235,20 @@ return [
     ],
     'pages_draft_discarded' => 'Draft discarded, The editor has been updated with the current page content',
     'pages_specific' => 'Specific Page',
+    'pages_is_template' => 'Page Template',
 
-    /**
-     * Editor sidebar
-     */
+    // Editor Sidebar
     'page_tags' => 'Page Tags',
     'chapter_tags' => 'Chapter Tags',
     'book_tags' => 'Book Tags',
     'shelf_tags' => 'Shelf Tags',
     'tag' => 'Tag',
     'tags' =>  'Tags',
+    'tag_name' =>  'Tag Name',
     'tag_value' => 'Tag Value (Optional)',
     'tags_explain' => "Add some tags to better categorise your content. \n You can assign a value to a tag for more in-depth organisation.",
     'tags_add' => 'Add another tag',
+    'tags_remove' => 'Remove this tag',
     'attachments' => 'Attachments',
     'attachments_explain' => 'Upload some files or attach some links to display on your page. These are visible in the page sidebar.',
     'attachments_explain_instant_save' => 'Changes here are saved instantly.',
@@ -254,7 +256,7 @@ return [
     'attachments_upload' => 'Upload File',
     'attachments_link' => 'Attach Link',
     'attachments_set_link' => 'Set Link',
-    'attachments_delete_confirm' => 'Click delete again to confirm you want to delete this attachment.',
+    'attachments_delete' => 'Are you sure you want to delete this attachment?',
     'attachments_dropzone' => 'Drop files or click here to attach a file',
     'attachments_no_files' => 'No files have been uploaded',
     'attachments_explain_link' => 'You can attach a link if you\'d prefer not to upload a file. This can be a link to another page or a link to a file in the cloud.',
@@ -263,6 +265,7 @@ return [
     'attachments_link_url' => 'Link to file',
     'attachments_link_url_hint' => 'Url of site or file',
     'attach' => 'Attach',
+    'attachments_insert_link' => 'Add Attachment Link to Page',
     'attachments_edit_file' => 'Edit File',
     'attachments_edit_file_name' => 'File Name',
     'attachments_edit_drop_upload' => 'Drop files or click here to upload and overwrite',
@@ -272,19 +275,22 @@ return [
     'attachments_file_uploaded' => 'File successfully uploaded',
     'attachments_file_updated' => 'File successfully updated',
     'attachments_link_attached' => 'Link successfully attached to page',
+    'templates' => 'Templates',
+    'templates_set_as_template' => 'Page is a template',
+    'templates_explain_set_as_template' => 'You can set this page as a template so its contents be utilized when creating other pages. Other users will be able to use this template if they have view permissions for this page.',
+    'templates_replace_content' => 'Replace page content',
+    'templates_append_content' => 'Append to page content',
+    'templates_prepend_content' => 'Prepend to page content',
 
-    /**
-     * Profile View
-     */
+    // Profile View
     'profile_user_for_x' => 'User for :time',
     'profile_created_content' => 'Created Content',
     'profile_not_created_pages' => ':userName has not created any pages',
     'profile_not_created_chapters' => ':userName has not created any chapters',
     'profile_not_created_books' => ':userName has not created any books',
+    'profile_not_created_shelves' => ':userName has not created any shelves',
 
-    /**
-     * Comments
-     */
+    // Comments
     'comment' => 'Comment',
     'comments' => 'Comments',
     'comment_add' => 'Add Comment',
@@ -302,10 +308,9 @@ return [
     'comment_delete_confirm' => 'Are you sure you want to delete this comment?',
     'comment_in_reply_to' => 'In reply to :commentId',
 
-    /**
-     * Revision
-     */
+    // Revision
     'revision_delete_confirm' => 'Are you sure you want to delete this revision?',
+    'revision_restore_confirm' => 'Are you sure you want to restore this revision? The current page contents will be replaced.',
     'revision_delete_success' => 'Revision deleted',
     'revision_cannot_delete_latest' => 'Cannot delete the latest revision.'
 ];

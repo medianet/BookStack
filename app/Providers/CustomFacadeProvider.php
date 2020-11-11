@@ -2,19 +2,12 @@
 
 namespace BookStack\Providers;
 
-use BookStack\Activity;
-use BookStack\Image;
-use BookStack\Services\ImageService;
-use BookStack\Services\PermissionService;
-use BookStack\Services\ViewService;
-use BookStack\Setting;
-use BookStack\View;
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Contracts\Filesystem\Factory;
+use BookStack\Actions\ActivityService;
+use BookStack\Actions\ViewService;
+use BookStack\Auth\Permissions\PermissionService;
+use BookStack\Settings\SettingService;
+use BookStack\Uploads\ImageService;
 use Illuminate\Support\ServiceProvider;
-use BookStack\Services\ActivityService;
-use BookStack\Services\SettingService;
-use Intervention\Image\ImageManager;
 
 class CustomFacadeProvider extends ServiceProvider
 {
@@ -35,34 +28,24 @@ class CustomFacadeProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('activity', function () {
-            return new ActivityService(
-                $this->app->make(Activity::class),
-                $this->app->make(PermissionService::class)
-            );
+        $this->app->singleton('activity', function () {
+            return $this->app->make(ActivityService::class);
         });
 
-        $this->app->bind('views', function () {
-            return new ViewService(
-                $this->app->make(View::class),
-                $this->app->make(PermissionService::class)
-            );
+        $this->app->singleton('views', function () {
+            return $this->app->make(ViewService::class);
         });
 
-        $this->app->bind('setting', function () {
-            return new SettingService(
-                $this->app->make(Setting::class),
-                $this->app->make(Repository::class)
-            );
+        $this->app->singleton('setting', function () {
+            return $this->app->make(SettingService::class);
         });
 
-        $this->app->bind('images', function () {
-            return new ImageService(
-                $this->app->make(Image::class),
-                $this->app->make(ImageManager::class),
-                $this->app->make(Factory::class),
-                $this->app->make(Repository::class)
-            );
+        $this->app->singleton('images', function () {
+            return $this->app->make(ImageService::class);
+        });
+
+        $this->app->singleton('permissions', function () {
+            return $this->app->make(PermissionService::class);
         });
     }
 }

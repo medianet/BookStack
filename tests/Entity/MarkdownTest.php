@@ -1,13 +1,15 @@
-<?php namespace Tests;
+<?php namespace Tests\Entity;
+
+use Tests\BrowserKitTest;
 
 class MarkdownTest extends BrowserKitTest
 {
     protected $page;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-        $this->page = \BookStack\Page::first();
+        $this->page = \BookStack\Entities\Page::first();
     }
 
     protected function setMarkdownEditor()

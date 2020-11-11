@@ -1,18 +1,20 @@
-@extends('sidebar-layout')
-
-@section('toolbar')
-    <div class="col-sm-6 faded">
-        <div class="action-buttons text-left">
-            <a expand-toggle=".entity-list.compact .entity-item-snippet" class="text-primary text-button">@icon('expand-text'){{ trans('common.toggle_details') }}</a>
-            @include('books/view-toggle', ['booksViewType' => $booksViewType])
-        </div>
-    </div>
-@stop
-
-@section('sidebar')
-    @include('common/home-sidebar')
-@stop
+@extends('tri-layout')
 
 @section('body')
-    @include('books/list', ['books' => $books, 'bookViewType' => $booksViewType])
+    @include('books.list', ['books' => $books, 'view' => $view])
+@stop
+
+@section('left')
+    @include('common.home-sidebar')
+@stop
+
+@section('right')
+    <div class="actions mb-xl">
+        <h5>{{ trans('common.actions') }}</h5>
+        <div class="icon-list text-primary">
+            @include('partials.view-toggle', ['view' => $view, 'type' => 'books'])
+            @include('components.expand-toggle', ['target' => '.entity-list.compact .entity-item-snippet', 'key' => 'home-details'])
+            @include('partials.dark-mode-toggle', ['classes' => 'text-muted icon-list-item text-primary'])
+        </div>
+    </div>
 @stop

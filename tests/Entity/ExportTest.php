@@ -1,8 +1,11 @@
-<?php namespace Tests;
+<?php namespace Tests\Entity;
 
 
-use BookStack\Chapter;
-use BookStack\Page;
+use BookStack\Entities\Chapter;
+use BookStack\Entities\Page;
+use BookStack\Uploads\HttpFetcher;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class ExportTest extends TestCase
 {
@@ -76,6 +79,20 @@ class ExportTest extends TestCase
         $resp->assertHeader('Content-Disposition', 'attachment; filename="' . $book->slug . '.html"');
     }
 
+    public function test_book_html_export_shows_chapter_descriptions()
+    {
+        $chapterDesc = 'My custom test chapter description ' . Str::random(12);
+        $chapter = Chapter::query()->first();
+        $chapter->description = $chapterDesc;
+        $chapter->save();
+
+        $book = $chapter->book;
+        $this->asEditor();
+
+        $resp = $this->get($book->getUrl('/export/html'));
+        $resp->assertSee($chapterDesc);
+    }
+
     public function test_chapter_text_export()
     {
         $chapter = Chapter::first();
@@ -121,6 +138,30 @@ class ExportTest extends TestCase
 
         $resp = $this->asEditor()->get($page->getUrl('/export/html'));
         $resp->assertSee($customHeadContent);
+    }
+
+    public function test_page_html_export_use_absolute_dates()
+    {
+        $page = Page::first();
+
+        $resp = $this->asEditor()->get($page->getUrl('/export/html'));
+        $resp->assertSee($page->created_at->toDayDateTimeString());
+        $resp->assertDontSee($page->created_at->diffForHumans());
+        $resp->assertSee($page->updated_at->toDayDateTimeString());
+        $resp->assertDontSee($page->updated_at->diffForHumans());
+    }
+
+    public function test_page_export_sets_right_data_type_for_svg_embeds()
+    {
+        $page = Page::first();
+        $page->html = '<img src="http://example.com/image.svg">';
+        $page->save();
+
+        $this->asEditor();
+        $this->mockHttpFetch('<svg></svg>');
+        $resp = $this->get($page->getUrl('/export/html'));
+        $resp->assertStatus(200);
+        $resp->assertSee('<img src="data:image/svg+xml;base64');
     }
 
 }

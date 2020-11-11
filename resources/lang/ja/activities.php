@@ -1,11 +1,9 @@
 <?php
-
+/**
+ * Activity text strings.
+ * Is used for all the text within activity logs & notifications.
+ */
 return [
-
-    /**
-     * Activity text strings.
-     * Is used for all the text within activity logs & notifications.
-     */
 
     // Pages
     'page_create'                 => 'がページを作成:',
@@ -37,4 +35,14 @@ return [
     'book_sort'                   => 'がブックの並び順を変更:',
     'book_sort_notification'      => '並び順を変更しました',
 
+    // Bookshelves
+    'bookshelf_create'            => '本棚を作成:',
+    'bookshelf_create_notification'    => '本棚を作成しました',
+    'bookshelf_update'                 => '本棚を更新:',
+    'bookshelf_update_notification'    => '本棚を更新しました',
+    'bookshelf_delete'                 => 'ブックが削除されました。',
+    'bookshelf_delete_notification'    => '本棚を削除しました',
+
+    // Other
+    'commented_on'                => 'コメントする',
 ];

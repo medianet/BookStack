@@ -1,43 +1,48 @@
 <?php
-
+/**
+ * Activity text strings.
+ * Is used for all the text within activity logs & notifications.
+ */
 return [
 
-    /**
-     * Activity text strings.
-     * Is used for all the text within activity logs & notifications.
-     */
-
     // Pages
-    'page_create'                 => 'Seite erstellt',
+    'page_create'                 => 'erstellte Seite',
     'page_create_notification'    => 'Die Seite wurde erfolgreich erstellt.',
-    'page_update'                 => 'Seite aktualisiert',
+    'page_update'                 => 'aktualisierte Seite',
     'page_update_notification'    => 'Die Seite wurde erfolgreich aktualisiert.',
-    'page_delete'                 => 'Seite gelöscht',
+    'page_delete'                 => 'gelöschte Seite',
     'page_delete_notification'    => 'Die Seite wurde erfolgreich gelöscht.',
-    'page_restore'                => 'Seite wiederhergstellt',
-    'page_restore_notification'   => 'Die Seite wurde erfolgreich wiederhergstellt.',
+    'page_restore'                => 'wiederhergestellte Seite',
+    'page_restore_notification'   => 'Die Seite wurde erfolgreich wiederhergestellt.',
     'page_move'                   => 'Seite verschoben',
 
     // Chapters
-    'chapter_create'              => 'Kapitel erstellt',
+    'chapter_create'              => 'erstellte Kapitel',
     'chapter_create_notification' => 'Das Kapitel wurde erfolgreich erstellt.',
-    'chapter_update'              => 'Kapitel aktualisiert',
+    'chapter_update'              => 'aktualisierte Kapitel',
     'chapter_update_notification' => 'Das Kapitel wurde erfolgreich aktualisiert.',
-    'chapter_delete'              => 'Kapitel gelöscht',
+    'chapter_delete'              => 'löschte Kapitel',
     'chapter_delete_notification' => 'Das Kapitel wurde erfolgreich gelöscht.',
-    'chapter_move'                => 'Kapitel verschoben',
+    'chapter_move'                => 'verschob Kapitel',
 
     // Books
-    'book_create'                 => 'Buch erstellt',
+    'book_create'                 => 'erstellte Buch',
     'book_create_notification'    => 'Das Buch wurde erfolgreich erstellt.',
-    'book_update'                 => 'Buch aktualisiert',
+    'book_update'                 => 'aktualisierte Buch',
     'book_update_notification'    => 'Das Buch wurde erfolgreich aktualisiert.',
-    'book_delete'                 => 'Buch gelöscht',
+    'book_delete'                 => 'löschte Buch',
     'book_delete_notification'    => 'Das Buch wurde erfolgreich gelöscht.',
-    'book_sort'                   => 'Buch sortiert',
-    'book_sort_notification'      => 'Das Buch wurde erfolgreich neu sortiert.',
-    
-    // Other
-    'commented_on'                => 'kommentierte',
+    'book_sort'                   => 'sortierte Buch',
+    'book_sort_notification'      => 'Das Buch wurde erfolgreich umsortiert.',
 
+    // Bookshelves
+    'bookshelf_create'            => 'erstellt Bücherregal',
+    'bookshelf_create_notification'    => 'Das Bücherregal wurde erfolgreich erstellt',
+    'bookshelf_update'                 => 'aktualisiert Bücherregal',
+    'bookshelf_update_notification'    => 'Das Bücherregal wurde erfolgreich aktualisiert',
+    'bookshelf_delete'                 => 'löscht Bücherregal',
+    'bookshelf_delete_notification'    => 'Das Bücherregal wurde erfolgreich gelöscht',
+
+    // Other
+    'commented_on'                => 'kommentiert',
 ];

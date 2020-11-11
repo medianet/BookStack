@@ -1,8 +1,15 @@
-<?php namespace Tests;
+<?php namespace Tests\Auth;
 
+use BookStack\Auth\Role;
+use BookStack\Auth\User;
+use BookStack\Entities\Page;
 use BookStack\Notifications\ConfirmEmail;
-use BookStack\User;
+use BookStack\Notifications\ResetPassword;
+use BookStack\Settings\SettingService;
+use DB;
+use Hash;
 use Illuminate\Support\Facades\Notification;
+use Tests\BrowserKitTest;
 
 class AuthTest extends BrowserKitTest
 {
@@ -21,7 +28,7 @@ class AuthTest extends BrowserKitTest
 
     public function test_public_viewing()
     {
-        $settings = app('BookStack\Services\SettingService');
+        $settings = app(SettingService::class);
         $settings->put('app-public', 'true');
         $this->visit('/')
             ->seePageIs('/')
@@ -68,6 +75,31 @@ class AuthTest extends BrowserKitTest
             ->seePageIs('/register');
     }
 
+    public function test_registration_validation()
+    {
+        $this->setSettings(['registration-enabled' => 'true']);
+
+        $this->visit('/register')
+            ->type('1', '#name')
+            ->type('1', '#email')
+            ->type('1', '#password')
+            ->press('Create Account')
+            ->see('The name must be at least 2 characters.')
+            ->see('The email must be a valid email address.')
+            ->see('The password must be at least 8 characters.')
+            ->seePageIs('/register');
+    }
+
+    public function test_sign_up_link_on_login()
+    {
+        $this->visit('/login')
+            ->dontSee('Sign up');
+
+        $this->setSettings(['registration-enabled' => 'true']);
+
+        $this->visit('/login')
+            ->see('Sign up');
+    }
 
     public function test_confirmed_registration()
     {
@@ -101,7 +133,7 @@ class AuthTest extends BrowserKitTest
             ->press('Resend Confirmation Email');
 
         // Get confirmation and confirm notification matches
-        $emailConfirmation = \DB::table('email_confirmations')->where('user_id', '=', $dbUser->id)->first();
+        $emailConfirmation = DB::table('email_confirmations')->where('user_id', '=', $dbUser->id)->first();
         Notification::assertSentTo($dbUser, ConfirmEmail::class, function($notification, $channels) use ($emailConfirmation) {
             return $notification->token === $emailConfirmation->token;
         });
@@ -138,6 +170,11 @@ class AuthTest extends BrowserKitTest
             ->seePageIs('/register/confirm')
             ->seeInDatabase('users', ['name' => $user->name, 'email' => $user->email, 'email_confirmed' => false]);
 
+        $this->visit('/')
+            ->seePageIs('/register/confirm/awaiting');
+
+        auth()->logout();
+
         $this->visit('/')->seePageIs('/login')
             ->type($user->email, '#email')
             ->type($user->password, '#password')
@@ -170,6 +207,10 @@ class AuthTest extends BrowserKitTest
             ->seePageIs('/register/confirm')
             ->seeInDatabase('users', ['name' => $user->name, 'email' => $user->email, 'email_confirmed' => false]);
 
+        $this->visit('/')
+            ->seePageIs('/register/confirm/awaiting');
+
+        auth()->logout();
         $this->visit('/')->seePageIs('/login')
             ->type($user->email, '#email')
             ->type($user->password, '#password')
@@ -181,13 +222,14 @@ class AuthTest extends BrowserKitTest
     public function test_user_creation()
     {
         $user = factory(User::class)->make();
+        $adminRole = Role::getRole('admin');
 
         $this->asAdmin()
             ->visit('/settings/users')
             ->click('Add New User')
             ->type($user->name, '#name')
             ->type($user->email, '#email')
-            ->check('roles[admin]')
+            ->check("roles[{$adminRole->id}]")
             ->type($user->password, '#password')
             ->type($user->password, '#password-confirm')
             ->press('Save')
@@ -229,7 +271,7 @@ class AuthTest extends BrowserKitTest
             ->seePageIs('/settings/users');
 
             $userPassword = User::find($user->id)->password;
-            $this->assertTrue(\Hash::check('newpassword', $userPassword));
+            $this->assertTrue(Hash::check('newpassword', $userPassword));
     }
 
     public function test_user_deletion()
@@ -248,7 +290,16 @@ class AuthTest extends BrowserKitTest
 
     public function test_user_cannot_be_deleted_if_last_admin()
     {
-        $adminRole = \BookStack\Role::getRole('admin');
+        $adminRole = Role::getRole('admin');
+
+        // Delete all but one admin user if there are more than one
+        $adminUsers = $adminRole->users;
+        if (count($adminUsers) > 1) {
+            foreach ($adminUsers->splice(1) as $user) {
+                $user->delete();
+            }
+        }
+
         // Ensure we currently only have 1 admin user
         $this->assertEquals(1, $adminRole->users()->count());
         $user = $adminRole->users->first();
@@ -272,14 +323,13 @@ class AuthTest extends BrowserKitTest
 
     public function test_reset_password_flow()
     {
-
         Notification::fake();
 
         $this->visit('/login')->click('Forgot Password?')
             ->seePageIs('/password/email')
             ->type('admin@admin.com', 'email')
             ->press('Send Reset Link')
-            ->see('A password reset link has been sent to admin@admin.com');
+            ->see('A password reset link will be sent to admin@admin.com if that email address is found in the system.');
 
         $this->seeInDatabase('password_resets', [
             'email' => 'admin@admin.com'
@@ -287,8 +337,8 @@ class AuthTest extends BrowserKitTest
 
         $user = User::where('email', '=', 'admin@admin.com')->first();
 
-        Notification::assertSentTo($user, \BookStack\Notifications\ResetPassword::class);
-        $n = Notification::sent($user, \BookStack\Notifications\ResetPassword::class);
+        Notification::assertSentTo($user, ResetPassword::class);
+        $n = Notification::sent($user, ResetPassword::class);
 
         $this->visit('/password/reset/' . $n->first()->token)
             ->see('Reset Password')
@@ -300,6 +350,28 @@ class AuthTest extends BrowserKitTest
             ->see('Your password has been successfully reset');
     }
 
+    public function test_reset_password_flow_shows_success_message_even_if_wrong_password_to_prevent_user_discovery()
+    {
+        $this->visit('/login')->click('Forgot Password?')
+            ->seePageIs('/password/email')
+            ->type('barry@admin.com', 'email')
+            ->press('Send Reset Link')
+            ->see('A password reset link will be sent to barry@admin.com if that email address is found in the system.')
+            ->dontSee('We can\'t find a user');
+
+
+        $this->visit('/password/reset/arandometokenvalue')
+            ->see('Reset Password')
+            ->submitForm('Reset Password', [
+                'email' => 'barry@admin.com',
+                'password' => 'randompass',
+                'password_confirmation' => 'randompass'
+            ])->followRedirects()
+            ->seePageIs('/password/reset/arandometokenvalue')
+            ->dontSee('We can\'t find a user')
+            ->see('The password reset token is invalid for this email address.');
+    }
+
     public function test_reset_password_page_shows_sign_links()
     {
         $this->setSettings(['registration-enabled' => 'true']);
@@ -308,13 +380,64 @@ class AuthTest extends BrowserKitTest
             ->seeLink('Sign up');
     }
 
+    public function test_login_redirects_to_initially_requested_url_correctly()
+    {
+        config()->set('app.url', 'http://localhost');
+        $page = Page::query()->first();
+
+        $this->visit($page->getUrl())
+            ->seePageUrlIs(url('/login'));
+        $this->login('admin@admin.com', 'password')
+            ->seePageUrlIs($page->getUrl());
+    }
+
+    public function test_login_intended_redirect_does_not_redirect_to_external_pages()
+    {
+        config()->set('app.url', 'http://localhost');
+        $this->setSettings(['app-public' => true]);
+
+        $this->get('/login', ['referer' => 'https://example.com']);
+        $login = $this->post('/login', ['email' => 'admin@admin.com', 'password' => 'password']);
+
+        $login->assertRedirectedTo('http://localhost');
+    }
+
+    public function test_login_authenticates_admins_on_all_guards()
+    {
+        $this->post('/login', ['email' => 'admin@admin.com', 'password' => 'password']);
+        $this->assertTrue(auth()->check());
+        $this->assertTrue(auth('ldap')->check());
+        $this->assertTrue(auth('saml2')->check());
+    }
+
+    public function test_login_authenticates_nonadmins_on_default_guard_only()
+    {
+        $editor = $this->getEditor();
+        $editor->password = bcrypt('password');
+        $editor->save();
+
+        $this->post('/login', ['email' => $editor->email, 'password' => 'password']);
+        $this->assertTrue(auth()->check());
+        $this->assertFalse(auth('ldap')->check());
+        $this->assertFalse(auth('saml2')->check());
+    }
+
+    public function test_failed_logins_are_logged_when_message_configured()
+    {
+        $log = $this->withTestLogger();
+        config()->set(['logging.failed_login.message' => 'Failed login for %u']);
+
+        $this->post('/login', ['email' => 'admin@example.com', 'password' => 'cattreedog']);
+        $this->assertTrue($log->hasWarningThatContains('Failed login for admin@example.com'));
+
+        $this->post('/login', ['email' => 'admin@admin.com', 'password' => 'password']);
+        $this->assertFalse($log->hasWarningThatContains('Failed login for admin@admin.com'));
+    }
+
     /**
      * Perform a login
-     * @param string $email
-     * @param string $password
-     * @return $this
      */
-    protected function login($email, $password)
+    protected function login(string $email, string $password): AuthTest
     {
         return $this->visit('/login')
             ->type($email, '#email')
