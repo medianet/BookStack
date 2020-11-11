@@ -1,10 +1,12 @@
-<?php namespace Tests;
+<?php namespace Tests\Entity;
 
-use BookStack\Book;
-use BookStack\Chapter;
-use BookStack\Tag;
-use BookStack\Page;
-use BookStack\Services\PermissionService;
+use BookStack\Entities\Book;
+use BookStack\Entities\Chapter;
+use BookStack\Actions\Tag;
+use BookStack\Entities\Entity;
+use BookStack\Entities\Page;
+use BookStack\Auth\Permissions\PermissionService;
+use Tests\BrowserKitTest;
 
 class TagTest extends BrowserKitTest
 {
@@ -13,10 +15,10 @@ class TagTest extends BrowserKitTest
 
     /**
      * Get an instance of a page that has many tags.
-     * @param Tag[]|bool $tags
-     * @return mixed
+     * @param \BookStack\Actions\Tag[]|bool $tags
+     * @return Entity
      */
-    protected function getEntityWithTags($class, $tags = false)
+    protected function getEntityWithTags($class, $tags = false): Entity
     {
         $entity = $class::first();
 
@@ -26,48 +28,6 @@ class TagTest extends BrowserKitTest
 
         $entity->tags()->saveMany($tags);
         return $entity;
-    }
-
-    public function test_get_page_tags()
-    {
-        $page = $this->getEntityWithTags(Page::class);
-
-        // Add some other tags to check they don't interfere
-        factory(Tag::class, $this->defaultTagCount)->create();
-
-        $this->asAdmin()->get("/ajax/tags/get/page/" . $page->id)
-            ->shouldReturnJson();
-
-        $json = json_decode($this->response->getContent());
-        $this->assertTrue(count($json) === $this->defaultTagCount, "Returned JSON item count is not as expected");
-    }
-
-    public function test_get_chapter_tags()
-    {
-        $chapter = $this->getEntityWithTags(Chapter::class);
-
-        // Add some other tags to check they don't interfere
-        factory(Tag::class, $this->defaultTagCount)->create();
-
-        $this->asAdmin()->get("/ajax/tags/get/chapter/" . $chapter->id)
-            ->shouldReturnJson();
-
-        $json = json_decode($this->response->getContent());
-        $this->assertTrue(count($json) === $this->defaultTagCount, "Returned JSON item count is not as expected");
-    }
-
-    public function test_get_book_tags()
-    {
-        $book = $this->getEntityWithTags(Book::class);
-
-        // Add some other tags to check they don't interfere
-        factory(Tag::class, $this->defaultTagCount)->create();
-
-        $this->asAdmin()->get("/ajax/tags/get/book/" . $book->id)
-            ->shouldReturnJson();
-
-        $json = json_decode($this->response->getContent());
-        $this->assertTrue(count($json) === $this->defaultTagCount, "Returned JSON item count is not as expected");
     }
 
     public function test_tag_name_suggestions()
@@ -122,7 +82,7 @@ class TagTest extends BrowserKitTest
         // Set restricted permission the page
         $page->restricted = true;
         $page->save();
-        $permissionService->buildJointPermissionsForEntity($page);
+        $page->rebuildPermissions();
 
         $this->asAdmin()->get('/ajax/tags/suggest/names?search=co')->seeJsonEquals(['color', 'country']);
         $this->asEditor()->get('/ajax/tags/suggest/names?search=co')->seeJsonEquals([]);

@@ -1,11 +1,9 @@
 <?php
-
+/**
+ * Activity text strings.
+ * Is used for all the text within activity logs & notifications.
+ */
 return [
-
-    /**
-     * Activity text strings.
-     * Is used for all the text within activity logs & notifications.
-     */
 
     // Pages
     'page_create'                 => 'utworzono stronę',
@@ -15,7 +13,7 @@ return [
     'page_delete'                 => 'usunięto stronę',
     'page_delete_notification'    => 'Strona usunięta pomyślnie',
     'page_restore'                => 'przywrócono stronę',
-    'page_restore_notification'   => 'Stronga przywrócona pomyślnie',
+    'page_restore_notification'   => 'Strona przywrócona pomyślnie',
     'page_move'                   => 'przeniesiono stronę',
 
     // Chapters
@@ -28,13 +26,23 @@ return [
     'chapter_move'                => 'przeniesiono rozdział',
 
     // Books
-    'book_create'                 => 'utworzono księgę',
-    'book_create_notification'    => 'Księga utworzona pomyślnie',
-    'book_update'                 => 'zaktualizowano księgę',
-    'book_update_notification'    => 'Księga zaktualizowana pomyślnie',
-    'book_delete'                 => 'usunięto księgę',
-    'book_delete_notification'    => 'Księga usunięta pomyślnie',
-    'book_sort'                   => 'posortowano księgę',
-    'book_sort_notification'      => 'Księga posortowana pomyślnie',
+    'book_create'                 => 'utworzono książkę',
+    'book_create_notification'    => 'Książkę utworzony pomyślnie',
+    'book_update'                 => 'zaktualizowano książkę',
+    'book_update_notification'    => 'Książkę zaktualizowany pomyślnie',
+    'book_delete'                 => 'usunięto książkę',
+    'book_delete_notification'    => 'Książkę usunięty pomyślnie',
+    'book_sort'                   => 'posortowano książkę',
+    'book_sort_notification'      => 'Książkę posortowany pomyślnie',
 
+    // Bookshelves
+    'bookshelf_create'            => 'utworzono półkę',
+    'bookshelf_create_notification'    => 'Półka utworzona pomyślnie',
+    'bookshelf_update'                 => 'zaktualizowano półkę',
+    'bookshelf_update_notification'    => 'Półka zaktualizowana pomyślnie',
+    'bookshelf_delete'                 => 'usunięto półkę',
+    'bookshelf_delete_notification'    => 'Półka usunięta pomyślnie',
+
+    // Other
+    'commented_on'                => 'skomentował',
 ];

@@ -2,8 +2,8 @@
 
 namespace BookStack\Console\Commands;
 
-use BookStack\User;
-use BookStack\Repos\UserRepo;
+use BookStack\Auth\User;
+use BookStack\Auth\UserRepo;
 use Illuminate\Console\Command;
 
 class DeleteUsers extends Command
@@ -25,7 +25,7 @@ class DeleteUsers extends Command
      *
      * @var string
      */
-    protected $description = 'Delete users that are not "admin" or system users.';
+    protected $description = 'Delete users that are not "admin" or system users';
 
     public function __construct(User $user, UserRepo $userRepo)
     {

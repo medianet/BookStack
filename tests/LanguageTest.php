@@ -8,10 +8,10 @@ class LanguageTest extends TestCase
     /**
      * LanguageTest constructor.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-        $this->langs = array_diff(scandir(resource_path('lang')), ['..', '.', 'check.php']);
+        $this->langs = array_diff(scandir(resource_path('lang')), ['..', '.']);
     }
 
     public function test_locales_config_key_set_properly()
@@ -19,7 +19,21 @@ class LanguageTest extends TestCase
         $configLocales = config('app.locales');
         sort($configLocales);
         sort($this->langs);
-        $this->assertTrue(implode(':', $this->langs) === implode(':', $configLocales), 'app.locales configuration variable matches found lang files');
+        $this->assertEquals(implode(':', $configLocales), implode(':', $this->langs), 'app.locales configuration variable does not match those found in lang files');
+    }
+
+    // Not part of standard phpunit test runs since we sometimes expect non-added langs.
+    public function do_test_locales_all_have_language_dropdown_entry()
+    {
+        $dropdownLocales = array_keys(trans('settings.language_select', [], 'en'));
+        sort($dropdownLocales);
+        sort($this->langs);
+        $diffs = array_diff($this->langs, $dropdownLocales);
+        if (count($diffs) > 0) {
+            $diffText = implode(',', $diffs);
+            $this->addWarning("Languages: {$diffText} found in files but not in language select dropdown.");
+        }
+        $this->assertTrue(true);
     }
 
     public function test_correct_language_if_not_logged_in()
@@ -39,21 +53,6 @@ class LanguageTest extends TestCase
 
         $loginPageFrenchReq = $this->get('/login', ['Accept-Language' => 'fr']);
         $loginPageFrenchReq->assertDontSee('Se Connecter');
-    }
-
-    public function test_js_endpoint_for_each_language()
-    {
-
-        $visibleKeys = ['common', 'components', 'entities', 'errors'];
-
-        $this->asEditor();
-        foreach ($this->langs as $lang) {
-            setting()->putUser($this->getEditor(), 'language', $lang);
-            $transResp = $this->get('/translations');
-            foreach ($visibleKeys as $key) {
-                $transResp->assertSee($key);
-            }
-        }
     }
 
     public function test_all_lang_files_loadable()

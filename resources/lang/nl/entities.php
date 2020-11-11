@@ -1,14 +1,17 @@
 <?php
+/**
+ * Text used for 'Entities' (Document Structure Elements) such as
+ * Books, Shelves, Chapters & Pages
+ */
 return [
 
-    /**
-     * Shared
-     */
+    // Shared
     'recently_created' => 'Recent Aangemaakt',
     'recently_created_pages' => 'Recent Aangemaakte Pagina\'s',
     'recently_updated_pages' => 'Recent Bijgewerkte Pagina\'s',
     'recently_created_chapters' => 'Recent Aangemaakte Hoofdstukken',
     'recently_created_books' => 'Recent Aangemaakte Boeken',
+    'recently_created_shelves' => 'Recent Aangemaakte Boekenplanken',
     'recently_update' => 'Recent Bijgewerkt',
     'recently_viewed' => 'Recent Bekeken',
     'recent_activity' => 'Recente Activiteit',
@@ -19,7 +22,6 @@ return [
     'meta_created_name' => 'Aangemaakt: :timeLength door :user',
     'meta_updated' => ':timeLength Aangepast',
     'meta_updated_name' => 'Aangepast: :timeLength door :user',
-    'x_pages' => ':count Pagina\'s',
     'entity_select' => 'Entiteit Selecteren',
     'images' => 'Afbeeldingen',
     'my_recent_drafts' => 'Mijn Concepten',
@@ -28,54 +30,85 @@ return [
     'no_pages_recently_created' => 'Er zijn geen recent aangemaakte pagina\'s',
     'no_pages_recently_updated' => 'Er zijn geen recente wijzigingen',
     'export' => 'Exporteren',
-    'export_html' => 'Contained Web File',
-    'export_pdf' => 'PDF File',
-    'export_text' => 'Plain Text File',
+    'export_html' => 'Ingesloten Webbestand',
+    'export_pdf' => 'PDF Bestand',
+    'export_text' => 'Normaal Tekstbestand',
 
-    /**
-     * Permissions and restrictions
-     */
+    // Permissions and restrictions
     'permissions' => 'Permissies',
     'permissions_intro' => 'Als je dit aanzet, dan gelden rol-permissies niet meer voor deze pagina.',
     'permissions_enable' => 'Custom Permissies Aanzetten',
     'permissions_save' => 'Permissies Opslaan',
 
-    /**
-     * Search
-     */
+    // Search
     'search_results' => 'Zoekresultaten',
     'search_total_results_found' => ':count resultaten gevonden|:count resultaten gevonden',
     'search_clear' => 'Zoekopdracht wissen',
     'search_no_pages' => 'Er zijn geen pagina\'s gevonden',
     'search_for_term' => 'Zoeken op :term',
     'search_more' => 'Meer resultaten',
-    'search_filters' => 'Zoek filters',
-    'search_content_type' => 'Content Type',
+    'search_advanced' => 'Uitgebreid zoeken',
+    'search_terms' => 'Zoektermen',
+    'search_content_type' => 'Inhoudstype',
     'search_exact_matches' => 'Exacte Matches',
     'search_tags' => 'Zoek tags',
+    'search_options' => 'Opties',
     'search_viewed_by_me' => 'Bekeken door mij',
     'search_not_viewed_by_me' => 'Niet bekeken door mij',
     'search_permissions_set' => 'Permissies gezet',
     'search_created_by_me' => 'Door mij gemaakt',
     'search_updated_by_me' => 'Door mij geupdate',
+    'search_date_options' => 'Datum Opties',
     'search_updated_before' => 'Geupdate voor',
     'search_updated_after' => 'Geupdate na',
-    'search_created_before' => 'Gecreeerd voor',
-    'search_created_after' => 'Gecreeerd na',
-    'search_set_date' => 'Zet datum',
+    'search_created_before' => 'Gecreëerd voor',
+    'search_created_after' => 'Gecreëerd na',
+    'search_set_date' => 'Stel datum in',
     'search_update' => 'Update zoekresultaten',
 
-    /**
-     * Books
-     */
+    // Shelves
+    'shelf' => 'Boekenplank',
+    'shelves' => 'Boekenplanken',
+    'x_shelves' => ':count Boekenplank|:count Boekenplanken',
+    'shelves_long' => 'Boekenplanken',
+    'shelves_empty' => 'Er zijn geen boekenplanken aangemaakt',
+    'shelves_create' => 'Nieuwe Boekenplank Aanmaken',
+    'shelves_popular' => 'Populaire Boekenplanken',
+    'shelves_new' => 'Nieuwe Boekenplanken',
+    'shelves_new_action' => 'Nieuwe Boekplank',
+    'shelves_popular_empty' => 'De meest populaire boekenplanken worden hier weergegeven.',
+    'shelves_new_empty' => 'De meest recent aangemaakt boekenplanken worden hier weergeven.',
+    'shelves_save' => 'Boekenplanken Opslaan',
+    'shelves_books' => 'Boeken op deze plank',
+    'shelves_add_books' => 'Toevoegen boeken aan deze plank',
+    'shelves_drag_books' => 'Sleep boeken hier naartoe om deze toe te voegen aan deze plank',
+    'shelves_empty_contents' => 'Er zijn geen boeken aan deze plank toegekend',
+    'shelves_edit_and_assign' => 'Bewerk boekenplank om boeken toe te kennen.',
+    'shelves_edit_named' => 'Bewerk Boekenplank :name',
+    'shelves_edit' => 'Bewerk Boekenplank',
+    'shelves_delete' => 'Verwijder Boekenplank',
+    'shelves_delete_named' => 'Verwijder Boekenplank :name',
+    'shelves_delete_explain' => "Deze actie verwijdert de boekenplank met naam ':name'. De boeken op deze plank worden niet verwijderd.",
+    'shelves_delete_confirmation' => 'Weet je zeker dat je deze boekenplank wilt verwijderen?',
+    'shelves_permissions' => 'Boekenplank Permissies',
+    'shelves_permissions_updated' => 'Boekenplank Permissies Opgeslagen',
+    'shelves_permissions_active' => 'Boekenplank Permissies Actief',
+    'shelves_copy_permissions_to_books' => 'Kopieer Permissies naar Boeken',
+    'shelves_copy_permissions' => 'Kopieer Permissies',
+    'shelves_copy_permissions_explain' => 'Met deze actie worden de permissies van deze boekenplank gekopieerd naar alle boeken op de plank. Voordat deze actie wordt uitgevoerd, zorg dat de wijzigingen in de permissies van deze boekenplank zijn opgeslagen.',
+    'shelves_copy_permission_success' => 'Boekenplank permissies gekopieerd naar :count boeken',
+
+    // Books
     'book' => 'Boek',
     'books' => 'Boeken',
-	'x_books' => ':count Boek|:count Boeken',
+    'x_books' => ':count Boek|:count Boeken',
     'books_empty' => 'Er zijn geen boeken aangemaakt',
     'books_popular' => 'Populaire Boeken',
     'books_recent' => 'Recente Boeken',
-	'books_new' => 'Nieuwe Boeken',
+    'books_new' => 'Nieuwe Boeken',
+    'books_new_action' => 'Nieuw Boek',
     'books_popular_empty' => 'De meest populaire boeken worden hier weergegeven.',
+    'books_new_empty' => 'De meest recent aangemaakte boeken verschijnen hier.',
     'books_create' => 'Nieuw Boek Aanmaken',
     'books_delete' => 'Boek Verwijderen',
     'books_delete_named' => 'Verwijder Boek :bookName',
@@ -89,7 +122,6 @@ return [
     'books_permissions_updated' => 'Boek Permissies Opgeslagen',
     'books_empty_contents' => 'Er zijn nog een hoofdstukken en pagina\'s voor dit boek gemaakt.',
     'books_empty_create_page' => 'Pagina Toevoegen',
-    'books_empty_or' => 'of',
     'books_empty_sort_current_book' => 'Boek sorteren',
     'books_empty_add_chapter' => 'Hoofdstuk Toevoegen',
     'books_permissions_active' => 'Boek Permissies Actief',
@@ -97,12 +129,15 @@ return [
     'books_navigation' => 'Boek Navigatie',
     'books_sort' => 'Inhoud van het boek sorteren',
     'books_sort_named' => 'Sorteer Boek :bookName',
+    'books_sort_name' => 'Sorteren op Naam',
+    'books_sort_created' => 'Sorteren op datum van aanmaken',
+    'books_sort_updated' => 'Sorteren op datum van bijgewerkt',
+    'books_sort_chapters_first' => 'Hoofdstukken eerst',
+    'books_sort_chapters_last' => 'Hoofdstukken Laatst',
     'books_sort_show_other' => 'Bekijk Andere Boeken',
     'books_sort_save' => 'Nieuwe Order Opslaan',
 
-    /**
-     * Chapters
-     */
+    // Chapters
     'chapter' => 'Hoofdstuk',
     'chapters' => 'Hoofdstukken',
     'x_chapters' => ':count Hoofdstuk|:count Hoofdstukken',
@@ -126,9 +161,7 @@ return [
     'chapters_permissions_success' => 'Hoofdstuk Permissies Bijgewerkt',
     'chapters_search_this' => 'Doorzoek dit hoofdstuk',
 
-    /**
-     * Pages
-     */
+    // Pages
     'page' => 'Pagina',
     'pages' => 'Pagina\'s',
     'x_pages' => ':count Pagina|:count Pagina\'s',
@@ -145,7 +178,7 @@ return [
     'pages_delete_confirm' => 'Weet je zeker dat je deze pagina wilt verwijderen?',
     'pages_delete_draft_confirm' => 'Weet je zeker dat je dit concept wilt verwijderen?',
     'pages_editing_named' => 'Pagina :pageName Bewerken',
-    'pages_edit_toggle_header' => 'Wissel header',
+    'pages_edit_draft_options' => 'Concept Opties',
     'pages_edit_save_draft' => 'Concept opslaan',
     'pages_edit_draft' => 'Paginaconcept Bewerken',
     'pages_editing_draft' => 'Concept Bewerken',
@@ -163,9 +196,13 @@ return [
     'pages_md_preview' => 'Voorbeeld',
     'pages_md_insert_image' => 'Afbeelding Invoegen',
     'pages_md_insert_link' => 'Entity Link Invoegen',
+    'pages_md_insert_drawing' => 'Tekening Toevoegen',
     'pages_not_in_chapter' => 'Deze pagina staat niet in een hoofdstuk',
     'pages_move' => 'Pagina Verplaatsten',
     'pages_move_success' => 'Pagina verplaatst naar ":parentName"',
+    'pages_copy' => 'Pagina Kopiëren',
+    'pages_copy_desination' => 'Kopieerbestemming',
+    'pages_copy_success' => 'Pagina succesvol gekopieerd',
     'pages_permissions' => 'Pagina Permissies',
     'pages_permissions_success' => 'Pagina Permissies bijgwerkt',
     'pages_revision' => 'Revisie',
@@ -175,10 +212,12 @@ return [
     'pages_revisions_created_by' => 'Aangemaakt door',
     'pages_revisions_date' => 'Revisiedatum',
     'pages_revisions_number' => '#',
-    'pages_revisions_changelog' => 'Changelog',
+    'pages_revisions_numbered' => 'Revisie #:id',
+    'pages_revisions_numbered_changes' => 'Revisie #:id Wijzigingen',
+    'pages_revisions_changelog' => 'Wijzigingslogboek',
     'pages_revisions_changes' => 'Wijzigingen',
     'pages_revisions_current' => 'Huidige Versie',
-    'pages_revisions_preview' => 'Preview',
+    'pages_revisions_preview' => 'Voorbeeld',
     'pages_revisions_restore' => 'Herstellen',
     'pages_revisions_none' => 'Deze pagina heeft geen revisies',
     'pages_copy_link' => 'Link Kopiëren',
@@ -186,26 +225,31 @@ return [
     'pages_permissions_active' => 'Pagina Permissies Actief',
     'pages_initial_revision' => 'Eerste publicatie',
     'pages_initial_name' => 'Nieuwe Pagina',
-    'pages_editing_draft_notification' => 'You are currently editing a draft that was last saved :timeDiff.',
-    'pages_draft_edited_notification' => 'This page has been updated by since that time. It is recommended that you discard this draft.',
+    'pages_editing_draft_notification' => 'U bewerkt momenteel een concept dat voor het laatst is opgeslagen op :timeDiff.',
+    'pages_draft_edited_notification' => 'Deze pagina is sindsdien bijgewerkt. Het wordt aanbevolen dat u dit concept verwijderd.',
     'pages_draft_edit_active' => [
-        'start_a' => ':count users have started editing this page',
-        'start_b' => ':userName has started editing this page',
+        'start_a' => ':count gebruikers zijn begonnen deze pagina te bewerken',
+        'start_b' => ':userName is begonnen met het bewerken van deze pagina',
         'time_a' => 'since the pages was last updated',
-        'time_b' => 'in the last :minCount minutes',
-        'message' => ':start :time. Take care not to overwrite each other\'s updates!',
+        'time_b' => 'in de laatste :minCount minuten',
+        'message' => ':start :time. Let op om elkaars updates niet te overschrijven!',
     ],
-    'pages_draft_discarded' => 'Draft discarded, The editor has been updated with the current page content',
+    'pages_draft_discarded' => 'Concept verwijderd, de editor is bijgewerkt met de huidige pagina-inhoud',
+    'pages_specific' => 'Specifieke Pagina',
+    'pages_is_template' => 'Paginasjabloon',
 
-    /**
-     * Editor sidebar
-     */
+    // Editor Sidebar
     'page_tags' => 'Pagina Labels',
+    'chapter_tags' => 'Tags van Hoofdstuk',
+    'book_tags' => 'Tags van Boeken',
+    'shelf_tags' => 'Tags van Boekplanken',
     'tag' => 'Label',
-    'tags' =>  '',
+    'tags' =>  'Tags',
+    'tag_name' =>  'Naam Tag',
     'tag_value' => 'Label Waarde (Optioneel)',
     'tags_explain' => "Voeg labels toe om de inhoud te categoriseren. \n Je kunt meerdere labels toevoegen.",
     'tags_add' => 'Voeg een extra label toe',
+    'tags_remove' => 'Deze tag verwijderen',
     'attachments' => 'Bijlages',
     'attachments_explain' => 'Upload bijlages of voeg een link toe. Deze worden zichtbaar in het navigatiepaneel.',
     'attachments_explain_instant_save' => 'Wijzigingen worden meteen opgeslagen.',
@@ -213,7 +257,7 @@ return [
     'attachments_upload' => 'Bestand Uploaden',
     'attachments_link' => 'Link Toevoegen',
     'attachments_set_link' => 'Zet Link',
-    'attachments_delete_confirm' => 'Klik opnieuw op \'verwijderen\' om de bijlage definitief te verwijderen.',
+    'attachments_delete' => 'Weet u zeker dat u deze bijlage wilt verwijderen?',
     'attachments_dropzone' => 'Sleep hier een bestand of klik hier om een bestand toe te voegen',
     'attachments_no_files' => 'Er zijn geen bestanden geüpload',
     'attachments_explain_link' => 'Je kunt een link toevoegen als je geen bestanden wilt uploaden. Dit kan een link naar een andere pagina op deze website zijn, maar ook een link naar een andere website.',
@@ -222,6 +266,7 @@ return [
     'attachments_link_url' => 'Link naar bestand',
     'attachments_link_url_hint' => 'Url, site of bestand',
     'attach' => 'Koppelen',
+    'attachments_insert_link' => 'Add Attachment Link to Page',
     'attachments_edit_file' => 'Bestand Bewerken',
     'attachments_edit_file_name' => 'Bestandsnaam',
     'attachments_edit_drop_upload' => 'Sleep een bestand of klik hier om te uploaden en te overschrijven',
@@ -231,21 +276,25 @@ return [
     'attachments_file_uploaded' => 'Bestand succesvol geüpload',
     'attachments_file_updated' => 'Bestand succesvol bijgewerkt',
     'attachments_link_attached' => 'Link successfully gekoppeld aan de pagina',
+    'templates' => 'Sjablonen',
+    'templates_set_as_template' => 'Pagina is een sjabloon',
+    'templates_explain_set_as_template' => 'Je kunt deze pagina als template instellen zodat de inhoud wordt gebruikt bij het maken van andere pagina\'s. Andere gebruikers kunnen deze template gebruiken als ze rechten hebben om deze pagina te bekijken.',
+    'templates_replace_content' => 'Pagina-inhoud vervangen',
+    'templates_append_content' => 'Toevoegen aan pagina-inhoud',
+    'templates_prepend_content' => 'Voeg vooraan toe aan pagina-inhoud',
 
-    /**
-     * Profile View
-     */
+    // Profile View
     'profile_user_for_x' => 'Lid sinds :time',
     'profile_created_content' => 'Aangemaakte Inhoud',
     'profile_not_created_pages' => ':userName heeft geen pagina\'s gemaakt',
     'profile_not_created_chapters' => ':userName heeft geen hoofdstukken gemaakt',
     'profile_not_created_books' => ':userName heeft geen boeken gemaakt',
+    'profile_not_created_shelves' => ':userName heeft nog geen boekenplanken gemaakt',
 
-    /**
-     * Comments
-     */
+    // Comments
     'comment' => 'Reactie',
     'comments' => 'Reacties',
+    'comment_add' => 'Reactie Toevoegen',
     'comment_placeholder' => 'Laat hier een reactie achter',
     'comment_count' => '{0} Geen reacties|{1} 1 Reactie|[2,*] :count Reacties',
     'comment_save' => 'Sla reactie op',
@@ -260,10 +309,9 @@ return [
     'comment_delete_confirm' => 'Zeker reactie verwijderen?',
     'comment_in_reply_to' => 'Antwoord op :commentId',
 
-     /**
-     * Revision
-     */
+    // Revision
     'revision_delete_confirm' => 'Weet u zeker dat u deze revisie wilt verwijderen?',
+    'revision_restore_confirm' => 'Weet u zeker dat u deze revisie wilt herstellen? De huidige pagina-inhoud wordt vervangen.',
     'revision_delete_success' => 'Revisie verwijderd',
     'revision_cannot_delete_latest' => 'Kan de laatste revisie niet verwijderen.'
 ];

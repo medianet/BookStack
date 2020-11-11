@@ -1,8 +1,18 @@
 <?php namespace BookStack\Providers;
 
-use BookStack\Services\SettingService;
-use BookStack\Setting;
+use Blade;
+use BookStack\Entities\Book;
+use BookStack\Entities\Bookshelf;
+use BookStack\Entities\BreadcrumbsViewComposer;
+use BookStack\Entities\Chapter;
+use BookStack\Entities\Page;
+use BookStack\Settings\Setting;
+use BookStack\Settings\SettingService;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Schema;
+use URL;
 use Validator;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,18 +24,58 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Set root URL
+        $appUrl = config('app.url');
+        if ($appUrl) {
+            $isHttps = (strpos($appUrl, 'https://') === 0);
+            URL::forceRootUrl($appUrl);
+            URL::forceScheme($isHttps ? 'https' : 'http');
+        }
+
         // Custom validation methods
-        Validator::extend('is_image', function ($attribute, $value, $parameters, $validator) {
-            $imageMimes = ['image/png', 'image/bmp', 'image/gif', 'image/jpeg', 'image/jpg', 'image/tiff', 'image/webp'];
-            return in_array($value->getMimeType(), $imageMimes);
+        Validator::extend('image_extension', function ($attribute, $value, $parameters, $validator) {
+            $validImageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+            return in_array(strtolower($value->getClientOriginalExtension()), $validImageExtensions);
         });
 
-        \Blade::directive('icon', function ($expression) {
+        Validator::extend('no_double_extension', function ($attribute, $value, $parameters, $validator) {
+            $uploadName = $value->getClientOriginalName();
+            return substr_count($uploadName, '.') < 2;
+        });
+
+        Validator::extend('safe_url', function ($attribute, $value, $parameters, $validator) {
+            $cleanLinkName = strtolower(trim($value));
+            $isJs = strpos($cleanLinkName, 'javascript:') === 0;
+            $isData = strpos($cleanLinkName, 'data:') === 0;
+            return !$isJs && !$isData;
+        });
+
+        // Custom blade view directives
+        Blade::directive('icon', function ($expression) {
             return "<?php echo icon($expression); ?>";
         });
 
+        Blade::directive('exposeTranslations', function ($expression) {
+            return "<?php \$__env->startPush('translations'); ?>" .
+                "<?php foreach({$expression} as \$key): ?>" .
+                '<meta name="translation" key="<?php echo e($key); ?>" value="<?php echo e(trans($key)); ?>">' . "\n" .
+                "<?php endforeach; ?>" .
+                '<?php $__env->stopPush(); ?>';
+        });
+
         // Allow longer string lengths after upgrade to utf8mb4
-        \Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
+
+        // Set morph-map due to namespace changes
+        Relation::morphMap([
+            'BookStack\\Bookshelf' => Bookshelf::class,
+            'BookStack\\Book' => Book::class,
+            'BookStack\\Chapter' => Chapter::class,
+            'BookStack\\Page' => Page::class,
+        ]);
+
+        // View Composers
+        View::composer('partials.breadcrumbs', BreadcrumbsViewComposer::class);
     }
 
     /**

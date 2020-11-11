@@ -13,6 +13,28 @@ class CreateBookshelvesTable extends Migration
      */
     public function up()
     {
+
+        // Convert the existing entity tables to InnoDB.
+        // Wrapped in try-catch just in the event a different database system is used
+        // which does not support InnoDB but does support all required features
+        // like foreign key references.
+        try {
+            $prefix = DB::getTablePrefix();
+            DB::statement("ALTER TABLE {$prefix}pages ENGINE = InnoDB;");
+            DB::statement("ALTER TABLE {$prefix}chapters ENGINE = InnoDB;");
+            DB::statement("ALTER TABLE {$prefix}books ENGINE = InnoDB;");
+        } catch (Exception $exception) {}
+
+        // Here we have table drops before the creations due to upgrade issues
+        // people were having due to the bookshelves_books table creation failing.
+        if (Schema::hasTable('bookshelves_books')) {
+            Schema::drop('bookshelves_books');
+        }
+
+        if (Schema::hasTable('bookshelves')) {
+            Schema::drop('bookshelves');
+        }
+
         Schema::create('bookshelves', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 200);
@@ -35,13 +57,17 @@ class CreateBookshelvesTable extends Migration
             $table->integer('book_id')->unsigned();
             $table->integer('order')->unsigned();
 
+            $table->primary(['bookshelf_id', 'book_id']);
+
             $table->foreign('bookshelf_id')->references('id')->on('bookshelves')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('book_id')->references('id')->on('books')
                 ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->primary(['bookshelf_id', 'book_id']);
         });
+
+        // Delete old bookshelf permissions
+        // Needed to to issues upon upgrade.
+        DB::table('role_permissions')->where('name', 'like', 'bookshelf-%')->delete();
 
         // Copy existing role permissions from Books
         $ops = ['View All', 'View Own', 'Create All', 'Create Own', 'Update All', 'Update Own', 'Delete All', 'Delete Own'];
@@ -59,7 +85,9 @@ class CreateBookshelvesTable extends Migration
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             ]);
 
-            $rowsToInsert = $roleIdsWithBookPermission->map(function($roleId) use ($permId) {
+            $rowsToInsert = $roleIdsWithBookPermission->filter(function($roleId) {
+                return !is_null($roleId);
+            })->map(function($roleId) use ($permId) {
                 return [
                     'role_id' => $roleId,
                     'permission_id' => $permId
@@ -91,11 +119,11 @@ class CreateBookshelvesTable extends Migration
         Schema::dropIfExists('bookshelves');
 
         // Drop related polymorphic items
-        DB::table('activities')->where('entity_type', '=', 'BookStack\Bookshelf')->delete();
-        DB::table('views')->where('viewable_type', '=', 'BookStack\Bookshelf')->delete();
-        DB::table('entity_permissions')->where('restrictable_type', '=', 'BookStack\Bookshelf')->delete();
-        DB::table('tags')->where('entity_type', '=', 'BookStack\Bookshelf')->delete();
-        DB::table('search_terms')->where('entity_type', '=', 'BookStack\Bookshelf')->delete();
-        DB::table('comments')->where('entity_type', '=', 'BookStack\Bookshelf')->delete();
+        DB::table('activities')->where('entity_type', '=', 'BookStack\Entities\Bookshelf')->delete();
+        DB::table('views')->where('viewable_type', '=', 'BookStack\Entities\Bookshelf')->delete();
+        DB::table('entity_permissions')->where('restrictable_type', '=', 'BookStack\Entities\Bookshelf')->delete();
+        DB::table('tags')->where('entity_type', '=', 'BookStack\Entities\Bookshelf')->delete();
+        DB::table('search_terms')->where('entity_type', '=', 'BookStack\Entities\Bookshelf')->delete();
+        DB::table('comments')->where('entity_type', '=', 'BookStack\Entities\Bookshelf')->delete();
     }
 }
