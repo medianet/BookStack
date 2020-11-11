@@ -73,7 +73,7 @@ return [
 
     // Shelves
     'shelf' => 'Полка',
-    'shelves' => 'Полки',
+    'shelves' => 'Выберите язык',
     'x_shelves' => ':count полка|:count полки|:count полок',
     'shelves_long' => 'Книжные полки',
     'shelves_empty' => 'Полки не созданы',
