@@ -1,5 +1,10 @@
 <?php
 return [
+    /**
+     * Shelves
+     */
+    // 'shelves' => 'Языки',
+    'shelves' => 'Выберите язык',
 
     /**
      * Shared

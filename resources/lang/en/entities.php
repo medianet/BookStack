@@ -70,7 +70,7 @@ return [
      * Shelves
      */
     'shelf' => 'Shelf',
-    'shelves' => 'Shelves',
+    'shelves' => 'Choose language',
     'shelves_long' => 'Bookshelves',
     'shelves_empty' => 'No shelves have been created',
     'shelves_create' => 'Create New Shelf',

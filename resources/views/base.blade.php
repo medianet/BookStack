@@ -38,6 +38,7 @@
                             <span class="logo-text">{{ setting('app-name') }}</span>
                         @endif
                     </a>
+                    
                 </div>
                 <div class="col-sm-8 col-md-9">
                     <div class="float right">
@@ -47,18 +48,28 @@
                                 <input id="header-search-box-input" type="text" name="term" tabindex="2" placeholder="{{ trans('common.search') }}" value="{{ isset($searchTerm) ? $searchTerm : '' }}">
                             </form>
                         </div>
-                        <div class="links text-center">
-                            @if(userCan('bookshelf-view-all') || userCan('bookshelf-view-own'))
+                        <div class="language logo-text">
+                            <a href="/shelves/knowledge-base">EN</a> | <a href="/shelves/knowledge-base-ru">RU</a>
+                        </div>
+                        @if(signedInUser())
+                            <div class="links text-center">
+                        @endif
+                            @if(signedInUser() && (userCan('bookshelf-view-all') || userCan('bookshelf-view-own')))
                                 <a href="{{ baseUrl('/shelves') }}">@icon('bookshelf'){{ trans('entities.shelves') }}</a>
                             @endif
-                            <a href="{{ baseUrl('/books') }}">@icon('book'){{ trans('entities.books') }}</a>
+                            @if(signedInUser())
+                                <a href="{{ baseUrl('/books') }}">@icon('book'){{ trans('entities.books') }}</a>
+                            @endif
                             @if(signedInUser() && userCan('settings-manage'))
                                 <a href="{{ baseUrl('/settings') }}">@icon('settings'){{ trans('settings.settings') }}</a>
                             @endif
-                            @if(!signedInUser())
+
+                            <!-- @if(!signedInUser())
                                 <a href="{{ baseUrl('/login') }}">@icon('login') {{ trans('auth.log_in') }}</a>
-                            @endif
-                        </div>
+                            @endif -->
+                        @if(signedInUser())
+                            </div>
+                        @endif
                         @if(signedInUser())
                             @include('partials._header-dropdown', ['currentUser' => user()])
                         @endif
