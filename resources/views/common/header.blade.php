@@ -23,7 +23,7 @@
             </form>
             @endif
             <div class="language logo-text">
-                <a href="/shelves/knowledge-base">EN</a> | <a href="/shelves/knowledge-base-ru">RU</a>
+                <a href="/shelves/knowledge-base-english">EN</a> | <a href="/shelves/knowledge-base-russian">RU</a>
             </div>
         </div>
         <div class="text-right">
