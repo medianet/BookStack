@@ -5,14 +5,14 @@
     <div class="container pt-xl">
 
         <div class="grid right-focus reverse-collapse">
-
-            <div>
-                <section id="recent-user-activity" class="mb-xl">
-                    <h5>{{ trans('entities.recent_activity') }}</h5>
-                    @include('partials.activity-list', ['activity' => $activity])
-                </section>
-            </div>
-
+            @if(signedInUser())
+                <div>
+                    <section id="recent-user-activity" class="mb-xl">
+                        <h5>{{ trans('entities.recent_activity') }}</h5>
+                        @include('partials.activity-list', ['activity' => $activity])
+                    </section>
+                </div>
+            @endif
             <div>
                 <section class="card content-wrap auto-height">
                     <div class="grid half v-center">

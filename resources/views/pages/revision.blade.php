@@ -1,12 +1,14 @@
 @extends('tri-layout')
 
 @section('left')
+    @if(signedInUser())
     <div id="revision-details" class="entity-details mb-xl">
         <h5>{{ trans('common.details') }}</h5>
         <div class="body text-small text-muted">
             @include('partials.entity-meta', ['entity' => $revision])
         </div>
     </div>
+    @endif
 @stop
 
 @section('body')

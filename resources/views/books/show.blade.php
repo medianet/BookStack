@@ -58,22 +58,23 @@
 @stop
 
 @section('right')
-    <div class="mb-xl">
-        <h5>{{ trans('common.details') }}</h5>
-        <div class="text-small text-muted blended-links">
-            @include('partials.entity-meta', ['entity' => $book])
-            @if($book->restricted)
-                <div class="active-restriction">
-                    @if(userCan('restrictions-manage', $book))
-                        <a href="{{ $book->getUrl('/permissions') }}">@icon('lock'){{ trans('entities.books_permissions_active') }}</a>
-                    @else
-                        @icon('lock'){{ trans('entities.books_permissions_active') }}
-                    @endif
-                </div>
-            @endif
+    @if(signedInUser())
+        <div class="mb-xl">
+            <h5>{{ trans('common.details') }}</h5>
+            <div class="text-small text-muted blended-links">
+                @include('partials.entity-meta', ['entity' => $book])
+                @if($book->restricted)
+                    <div class="active-restriction">
+                        @if(userCan('restrictions-manage', $book))
+                            <a href="{{ $book->getUrl('/permissions') }}">@icon('lock'){{ trans('entities.books_permissions_active') }}</a>
+                        @else
+                            @icon('lock'){{ trans('entities.books_permissions_active') }}
+                        @endif
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
-
+    @endif
     <div class="actions mb-xl">
         <h5>{{ trans('common.actions') }}</h5>
         <div class="icon-list text-primary">
@@ -142,10 +143,12 @@
     @endif
 
     @if(count($activity) > 0)
-        <div class="mb-xl">
-            <h5>{{ trans('entities.recent_activity') }}</h5>
-            @include('partials.activity-list', ['activity' => $activity])
-        </div>
+        @if(signedInUser())
+            <div class="mb-xl">
+                <h5>{{ trans('entities.recent_activity') }}</h5>
+                @include('partials.activity-list', ['activity' => $activity])
+            </div>
+        @endif
     @endif
 @stop
 
