@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="tri-layout-container" tri-layout @yield('container-attrs') >
+   <div @if(signedInUser()) class="tri-layout-container" @else class="tri-layout-container-small tri-layout-container" @endif tri-layout @yield('container-attrs') >
 
         <div class="tri-layout-left print-hidden pt-m" id="sidebar">
             <aside class="tri-layout-left-contents">
@@ -28,12 +28,13 @@
                 @yield('body')
             </div>
         </div>
-
-        <div class="tri-layout-right print-hidden pt-m">
-            <aside class="tri-layout-right-contents">
-                @yield('right')
-            </aside>
-        </div>
+        @if(signedInUser())
+            <div class="tri-layout-right print-hidden pt-m">
+                <aside class="tri-layout-right-contents">
+                    @yield('right')
+                </aside>
+            </div>
+        @endif
     </div>
 
 @stop
