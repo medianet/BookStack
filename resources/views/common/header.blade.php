@@ -22,9 +22,9 @@
                        value="{{ isset($searchTerm) ? $searchTerm : '' }}">
             </form>
             @endif
-            <div class="language logo-text">
+            <!-- <div class="language logo-text">
                 <a href="/shelves/knowledge-base-english">EN</a> | <a href="/shelves/knowledge-base-russian">RU</a>
-            </div>
+            </div> -->
         </div>
         <div class="text-right">
             <nav class="header-links">
