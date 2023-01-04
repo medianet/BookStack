@@ -68,7 +68,7 @@ return [
 
     // Shelves
     'shelf' => 'Shelf',
-    'shelves' => 'Choose language',
+    'shelves' => 'Shelves',
     'x_shelves' => ':count Shelf|:count Shelves',
     'shelves_long' => 'Bookshelves',
     'shelves_empty' => 'No shelves have been created',

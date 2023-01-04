@@ -31,9 +31,9 @@
                 <div class="links text-center">
                     @if (hasAppAccess())
                         <a class="hide-over-l" href="{{ url('/search') }}">@icon('search'){{ trans('common.search') }}</a>
-                        @if(signedInUser() && (userCanOnAny('view', \BookStack\Entities\Bookshelf::class) || userCan('bookshelf-view-all') || userCan('bookshelf-view-own')))
+                        <!-- @if(signedInUser() && (userCanOnAny('view', \BookStack\Entities\Bookshelf::class) || userCan('bookshelf-view-all') || userCan('bookshelf-view-own')))
                             <a href="{{ url('/shelves') }}">@icon('bookshelf'){{ trans('entities.shelves') }}</a>
-                        @endif
+                        @endif -->
                         @if(signedInUser())
                         <a href="{{ url('/books') }}">@icon('books'){{ trans('entities.books') }}</a>
                         @endif
